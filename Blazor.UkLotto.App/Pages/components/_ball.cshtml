@@ -1,0 +1,15 @@
+﻿<div class="ball">
+    <svg height="100" width="100">
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill='@Color' />
+        <text x="45" y="45" fill="white">@Number</text>
+    </svg>
+
+    <h5>BALL @Slot</h5>
+</div>
+
+@functions
+{
+    [Parameter] byte Slot { get; set; }
+    [Parameter] string Color { get; set; } = "red";
+    [Parameter] byte Number { get; set; }
+}

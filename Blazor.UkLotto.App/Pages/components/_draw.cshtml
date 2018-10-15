@@ -1,0 +1,36 @@
+﻿@if (Draw == null)
+{
+    <p>Loading Draw...</p>
+}
+else
+{
+    <div class="text-center">
+        <h1>Lottery Result Card</h1>
+        <h2>@Draw.Date.ToShortDateString()</h2>
+        <h3>
+            @Draw.MachineName
+        </h3>
+    </div>
+
+    <div class="row">
+        <_ball Number="@Draw.Balls[0].Number" Slot="1"></_ball>
+        <_ball Number="@Draw.Balls[1].Number" Slot="2" Color="green"></_ball>
+        <_ball Number="@Draw.Balls[2].Number" Slot="3" Color="yellow"></_ball>
+        <_ball Number="@Draw.Balls[3].Number" Slot="4" Color="blue"></_ball>
+        <_ball Number="@Draw.Balls[4].Number" Slot="5" Color="purple"></_ball>
+        <_ball Number="@Draw.Balls[5].Number" Slot="6" Color="orange"></_ball>
+        <br />
+        <_ball Number="@Draw.BonusBall.Number"></_ball>
+    </div>
+}
+
+
+@functions
+{
+[Parameter] Blazor.UkLotto.Shared.LotteryDraw Draw { get; set; }
+
+protected override Task OnAfterRenderAsync()
+{
+    return Task.CompletedTask;
+}
+}

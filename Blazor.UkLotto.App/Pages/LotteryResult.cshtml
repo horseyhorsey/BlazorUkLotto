@@ -1,0 +1,33 @@
+﻿@page "/LotteryResults/{DrawNumber:int}"
+@using Blazor.UkLotto.Shared
+@inject Services.AppState appState
+
+@if (Draw == null)
+{
+    <p>Loading..</p>
+}
+else
+{
+    <_draw Draw="@Draw" />
+}
+
+
+
+@functions
+{
+    [Parameter] int DrawNumber { get; set; }
+
+    public Blazor.UkLotto.Shared.LotteryDraw Draw { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        if (appState.LotteryDraws == null)
+            await appState.GetLatest();
+
+        Draw = appState.LotteryDraws.FirstOrDefault(x => x.Number == DrawNumber);
+
+        StateHasChanged();
+
+        //Task.CompletedTask;
+    }
+}

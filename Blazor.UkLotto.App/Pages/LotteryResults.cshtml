@@ -1,0 +1,59 @@
+﻿@page "/LotteryResults"
+@using Blazor.UkLotto.Shared
+@inject Services.AppState appStateService
+
+@if (appState?.LotteryDraws == null)
+{
+    <p><em>Loading latest lottery...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Ball 1</th>
+                <th>Ball 2</th>
+                <th>Ball 3</th>
+                <th>Ball 4</th>
+                <th>Ball 5</th>
+                <th>Ball 6</th>
+                <th>Bonus Ball</th>
+                <th>Machine</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lotteryDraw in appState.LotteryDraws)
+            {
+            <tr>
+                <td><a href="/lotteryresults/@lotteryDraw.Number">@lotteryDraw.Number</a></td>
+                <td>@lotteryDraw.Date.ToShortDateString()</td>
+                <td>@lotteryDraw.Balls[0].Number</td>
+                <td>@lotteryDraw.Balls[1].Number</td>
+                <td>@lotteryDraw.Balls[2].Number</td>
+                <td>@lotteryDraw.Balls[3].Number</td>
+                <td>@lotteryDraw.Balls[4].Number</td>
+                <td>@lotteryDraw.Balls[5].Number</td>
+                <td>@lotteryDraw.BonusBall.Number</td>
+                <td>@lotteryDraw.MachineName</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@functions{
+
+    protected Services.AppState appState;
+
+    protected override async Task OnInitAsync()
+    {
+        appState = appStateService;
+
+        var result = await appState.GetLatest();
+
+        if (result)
+            await JSRuntime.Current.InvokeAsync<string>("console.log", "Initialized Lottery Results");
+    }
+}
